@@ -1,0 +1,29 @@
+---
+description: Contexto del proyecto Meetings with AI — alcance semanal, decisiones y acuerdos de trabajo
+alwaysApply: true
+---
+
+# Meetings with AI (Cursor)
+
+Antes de implementar, lee `AGENTS.md` y la semana actual en `docs/PLAN.md`.
+
+## Alcance
+
+- Quédate en la semana actual del plan. Menciona trabajo futuro (HMAC, retries, DLQ, OAuth, AI) pero no lo construyas antes de tiempo.
+- Ramas de feature pequeñas; no pushes directos a `main`. CI verde antes de merge.
+- Sin secretos en git. Mantén `.env.example` al día.
+
+## Decisiones ya tomadas
+
+- Webhooks: `POST /webhooks/:provider`, validar + insertar rápido, 200 siempre (también en duplicados), 400 sin `event_id`.
+- Idempotencia con `UNIQUE (provider, event_id)` + `ON CONFLICT DO NOTHING`, no checks en código.
+- Sin TypeORM `synchronize`. Una sola fuente de verdad del schema.
+- Dominio hexagonal: el dominio no importa infraestructura.
+- Tests de idempotencia/concurrencia contra Postgres real.
+
+## Cómo trabajar en este repo
+
+- Verifica scripts en `apps/api/package.json` antes de asumir nombres.
+- Explica el "por qué" de cada decisión (prep de entrevistas).
+- Sé directo con riesgos y errores; no digas que sí por complacencia.
+- Números medidos van en `docs/RESULTS.md`, etiquetados como medidos en este proyecto.
